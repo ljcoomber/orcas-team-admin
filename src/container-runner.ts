@@ -197,6 +197,16 @@ function buildVolumeMounts(
     readonly: false,
   });
 
+  // Mount container/tools/ at /tools/ so skills can invoke shared CLI tools
+  const toolsDir = path.join(projectRoot, 'container', 'tools');
+  if (fs.existsSync(toolsDir)) {
+    mounts.push({
+      hostPath: toolsDir,
+      containerPath: '/tools',
+      readonly: true,
+    });
+  }
+
   // Additional mounts validated against external allowlist (tamper-proof from containers)
   if (group.containerConfig?.additionalMounts) {
     const validatedMounts = validateAdditionalMounts(
