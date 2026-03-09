@@ -16,7 +16,7 @@ Write and create Gmail drafts for all pending due actions.
    - **Skip** if `action_type` is `book_pitch`, `parent_whatsapp`, or `away_fixture_monitoring` — these require manual action, not email drafts
    - Get the fixture: `npx tsx /tools/sheets.ts get-fixture <fixture_id>`
    - Write an email body in the manager's voice (see CLAUDE.md for tone preferences)
-   - Subject format: `{home_team} vs {away_team}, {date formatted as "Sat 7 Mar 2026"}`
+   - Subject format: `Match against {home_team} on {date formatted as "Sat 7 Mar 2026"}`
    - Create the draft: `npx tsx /tools/gmail-draft.ts create '<to>' '<subject>' '<body>'`
    - Update the action with the draft ID: `npx tsx /tools/sheets.ts update-action '<json with metadata.draft_id>'`
 4. Report which drafts were created.

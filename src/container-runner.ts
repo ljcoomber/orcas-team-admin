@@ -207,6 +207,28 @@ function buildVolumeMounts(
     });
   }
 
+  // Mount Google OAuth credentials for Sheets/Gmail tools
+  const credsFile = path.resolve(
+    process.env['GMAIL_CREDENTIALS_FILE'] ?? 'credentials.json',
+  );
+  const tokenFile = path.resolve(
+    process.env['GMAIL_TOKEN_FILE'] ?? 'token.json',
+  );
+  if (fs.existsSync(credsFile)) {
+    mounts.push({
+      hostPath: credsFile,
+      containerPath: '/secrets/credentials.json',
+      readonly: true,
+    });
+  }
+  if (fs.existsSync(tokenFile)) {
+    mounts.push({
+      hostPath: tokenFile,
+      containerPath: '/secrets/token.json',
+      readonly: true,
+    });
+  }
+
   // Additional mounts validated against external allowlist (tamper-proof from containers)
   if (group.containerConfig?.additionalMounts) {
     const validatedMounts = validateAdditionalMounts(
@@ -241,6 +263,19 @@ function buildContainerArgs(
 
   // Pass host timezone so container's local time matches the user's
   args.push('-e', `TZ=${TIMEZONE}`);
+
+  // Fixed paths for Google OAuth credential files (mounted from host)
+  args.push('-e', 'GMAIL_CREDENTIALS_FILE=/secrets/credentials.json');
+  args.push('-e', 'GMAIL_TOKEN_FILE=/secrets/token.json');
+
+  // Allow /tools scripts to resolve node_modules from the agent-runner install
+  args.push('-e', 'NODE_PATH=/app/node_modules');
+
+  // Pass spreadsheet ID as a Docker env var so Bash subprocesses can read it
+  const spreadsheetId = readEnvFile(['GOOGLE_SHEETS_SPREADSHEET_ID'])['GOOGLE_SHEETS_SPREADSHEET_ID'];
+  if (spreadsheetId) {
+    args.push('-e', `GOOGLE_SHEETS_SPREADSHEET_ID=${spreadsheetId}`);
+  }
 
   // Run as host user so bind-mounted files are accessible.
   // Skip when running as root (uid 0), as the container's node user (uid 1000),
