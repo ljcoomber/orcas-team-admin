@@ -272,7 +272,9 @@ function buildContainerArgs(
   args.push('-e', 'NODE_PATH=/app/node_modules');
 
   // Pass spreadsheet ID as a Docker env var so Bash subprocesses can read it
-  const spreadsheetId = readEnvFile(['GOOGLE_SHEETS_SPREADSHEET_ID'])['GOOGLE_SHEETS_SPREADSHEET_ID'];
+  const spreadsheetId = readEnvFile(['GOOGLE_SHEETS_SPREADSHEET_ID'])[
+    'GOOGLE_SHEETS_SPREADSHEET_ID'
+  ];
   if (spreadsheetId) {
     args.push('-e', `GOOGLE_SHEETS_SPREADSHEET_ID=${spreadsheetId}`);
   }
