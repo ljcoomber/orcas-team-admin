@@ -21,6 +21,8 @@ groups/*
 *.keys.json
 .env
 .env*
+credentials.json
+token.json
 
 # Temp files
 .tmp-*
