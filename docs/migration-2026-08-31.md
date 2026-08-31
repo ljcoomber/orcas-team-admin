@@ -34,7 +34,11 @@ The deterministic script under-reported its own state (`2a-channels-selected.txt
 
 ## Remaining known issue
 
-`kind='task_log'` vs `'chat'` misclassification on a long-lived container after its originating task session was removed (item 6 above) — worked around, not root-caused. Revisit `container/agent-runner/src/poll-loop.ts` if it recurs.
+`kind='task_log'` vs `'chat'` misclassification on a long-lived container after its originating task session was removed (item 6 above) — worked around at the time, since root-caused (2026-08-31, later session):
+
+`processQuery()` in `container/agent-runner/src/poll-loop.ts` computes `routing` (incl. `routing.taskRun`) once, from the batch that starts the turn, and never recomputes it for messages pushed into the same active query later via the concurrent follow-up poller (lines ~411-520). If a task-triggered turn is still streaming when a chat message gets pushed into it, the reply is misclassified: `deliverMidTurnBlocks()` drops mid-turn `<message>` blocks (line ~811: `if (routing.taskRun) return ...`), and the final text goes through `autoAppendTaskLog()` instead of `sendToDestination()` — silently appended to the task run log, never delivered. No test covers this specific interleaving.
+
+Not currently reachable for this install: `book-pitch-sep12-d645` and `fixture-cycle-d25b` both run in properly isolated `system:tasks:<id>` sessions (confirmed via `ncl sessions list`), separate from the chat session (`sess-1788185283383-xk0yl5`), so a task turn and a chat message can no longer land in the same live container to interleave. The code gap itself is real and upstream (not Orcas-specific) — operator decision (2026-08-31): leave unpatched since it's currently unreachable here. Revisit if session isolation is ever reconfigured to share a session between tasks and chat.
 
 ## Deferred
 
