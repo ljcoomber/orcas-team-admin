@@ -12,7 +12,7 @@ Read the Wheathampstead Wanderers pitch booking calendar to see what's booked on
 
 Read-only calendar: https://teamup.com/ksb80ad4b37369cd70
 
-Pitches relevant to U13 Orcas (9v9) are under **Butterfield Ground**: Pitch 1, Pitch 2, Pitch 3.
+Pitches relevant to U13 Orcas (9v9) are under **Butterfield Ground**: Pitch 3.
 
 ## Steps
 
@@ -41,15 +41,13 @@ Pitches relevant to U13 Orcas (9v9) are under **Butterfield Ground**: Pitch 1, P
 ⚽ *Pitch availability — Sat 14 Mar, 11:30*
 
 Butterfield Ground:
-• Pitch 1 — FREE ✅
-• Pitch 2 — Booked 10:00–12:00
 • Pitch 3 — FREE ✅
 
-Recommend booking Pitch 1 or 3 for 11:00–12:30.
+Recommend booking Pitch 3 for 11:00–12:30.
 ```
 
 ## Notes
 
 - This skill reads the calendar only — bookings must be made manually via https://teamup.com/ksb80ad4b37369cd70
 - The `book_pitch` action is home fixtures only
-- Match length carried over from the U12 skill unverified for U13 (TODO: confirm actual U13 girls duration/half length with the league) — previously: 60 minutes (2 × 30 min) plus 10 minutes for half-time; allow 30 min warm-up, so book 1 hr 40 min total
+- Match length is 60 minutes (2 × 30 min) plus 10 minutes for half-time; allow 30 min warm-up, so book 1 hr 40 min total

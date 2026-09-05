@@ -89,7 +89,7 @@ Hi [Name],
 
 You've been assigned to our game on [Date]. Kick-off is at [Time] at [Venue, Address].
 
-Please confirm you can attend and me know if you need anything else.
+Please confirm you can attend and let me know if you need anything else.
 
 Cheers,
 

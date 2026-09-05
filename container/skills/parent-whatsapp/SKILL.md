@@ -29,9 +29,11 @@ Hi all, our next match is against *Bedwell Rangers U13 Phoenix*
 📅 Sat 14 Mar, 11:30am kickoff
 📍 Butterfield Road Playing Fields (home)
 
-Please arrive 30 minutes before kick-off.
+Please arrive 30 minutes before kick-off so the girls can warm up properly.
 
-🐬
+Parents will need to put up goals, and please can I have a volunteer:
+- to be Match Delegate
+- run the line
 ```
 
 Example for an away fixture (should not happen as parent_whatsapp is home-only, but handle gracefully):
@@ -42,9 +44,11 @@ Example for an away fixture (should not happen as parent_whatsapp is home-only, 
 📅 Sat 7 Mar, 12:00pm
 📍 Ware Lions FC (away — venue address TBC)
 
-Please aim to arrive 30 minutes before kick-off.
+Please aim to arrive 30 minutes before kick-off so the girls can warm up properly.
 
-🐬
+Please can I have a volunteer:
+- to be Match Delegate
+- run the line
 ```
 
 ## Update action JSON
