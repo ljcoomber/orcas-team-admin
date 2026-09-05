@@ -1,6 +1,6 @@
 ---
 name: parent-whatsapp
-description: Send match detail messages to parents for all due parent_whatsapp actions. Trigger on "send parent message", "notify parents", or as part of a scheduled run cycle.
+description: Send match detail messages to the parents' WhatsApp group for all due parent_whatsapp actions. Trigger on "message the parents", "whatsapp the parents", "send parent message", "notify parents", or as part of a scheduled run cycle.
 allowed-tools: mcp__nanoclaw__sheets_list_actions, mcp__nanoclaw__sheets_get_fixture, mcp__nanoclaw__sheets_update_action, mcp__nanoclaw__send_message
 ---
 
@@ -21,34 +21,52 @@ Send a match details message for each pending `parent_whatsapp` action that is d
 
 ## Message format
 
-Use WhatsApp formatting (*bold*, no markdown). Friendly and concise — parents just need the key info.
+No asterisks or markdown — WhatsApp doesn't render it reliably from automated messages. Use emojis for emphasis instead. Friendly and concise — parents just need the key info. Always include a request for a Match Delegate volunteer and a "run the line" volunteer, whatever the goals situation.
 
-Example for a home fixture:
+Example for a home fixture (goals need setting up):
 ```
-Hi all, our next match is against *Bedwell Rangers U13 Phoenix*
-📅 Sat 14 Mar, 11:30am kickoff
+Hi all, our next match is against Bedwell Rangers U13 Phoenix ⚽
+📅 Sat 14 Mar — meet at 11:00am for an 11:30am kickoff
 📍 Butterfield Road Playing Fields (home)
 
-Please arrive 30 minutes before kick-off so the girls can warm up properly.
+Parents will need to put up goals before the game. Please can I also have a volunteer:
+🙋 to be Match Delegate
+🚩 to run the line
+```
 
-Parents will need to put up goals, and please can I have a volunteer:
-- to be Match Delegate
-- run the line
+Example for a home fixture (goals already up — no setup needed):
+```
+Hi all, our next match is against Ware Lions U13 Stripes ⚽
+📅 Sat 21 Mar — meet at 10:30am for an 11:00am kickoff
+📍 Butterfield Road Playing Fields (home)
+
+Goals are already up from the earlier game, so no setup needed this week. Please can I have a volunteer:
+🙋 to be Match Delegate
+🚩 to run the line
+```
+
+Example for a home fixture (goals need taking down afterwards):
+```
+Hi all, our next match is against Hitchin Belles U13 Panthers ⚽
+📅 Sat 28 Mar — meet at 9:30am for a 10:00am kickoff
+📍 Butterfield Road Playing Fields (home)
+
+This is our last home game for a while, so we'll need a few parents to help take the goals down after the match. Please can I also have a volunteer:
+🙋 to be Match Delegate
+🚩 to run the line
 ```
 
 Example for an away fixture (should not happen as parent_whatsapp is home-only, but handle gracefully):
 ```
-⚽ *Match this Saturday!*
+⚽ Match this Saturday!
 
-*Ware Lions U13 Stripes* vs *Wheathampstead Wanderers U13 Orcas*
-📅 Sat 7 Mar, 12:00pm
+Ware Lions U13 Stripes vs Wheathampstead Wanderers U13 Orcas
+📅 Sat 7 Mar — meet at 11:30am for a 12:00pm kickoff
 📍 Ware Lions FC (away — venue address TBC)
 
-Please aim to arrive 30 minutes before kick-off so the girls can warm up properly.
-
 Please can I have a volunteer:
-- to be Match Delegate
-- run the line
+🙋 to be Match Delegate
+🚩 to run the line
 ```
 
 ## Update action JSON
@@ -65,6 +83,8 @@ Please can I have a volunteer:
 
 - `parent_whatsapp` is only scheduled for home fixtures (after `book_pitch` is completed)
 - Format the date as "Sat 14 Mar" (not ISO), time as "11:30am"
+- Meet time is 30 minutes before kick-off — compute it from the fixture's kick-off time, don't hardcode it
 - Venue for home fixtures is always Butterfield Road Playing Fields unless the fixture says otherwise
 - Use the fixture's `venue` field for the venue name
+- Whether goals need putting up, are already up, or need taking down afterwards depends on the fixture/action notes and the schedule of home games that week — check for that context before picking which example to follow; default to "need setting up" if nothing indicates otherwise
 - Do not send if `status` is already `completed` or `cancelled`

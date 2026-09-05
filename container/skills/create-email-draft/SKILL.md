@@ -1,6 +1,6 @@
 ---
 name: create-email-draft
-description: Create Gmail email drafts for all due pending actions that haven't been drafted yet. Trigger on "create drafts", "draft emails", or as part of a scheduled run cycle.
+description: Create Gmail drafts for opposition-coach and referee fixture emails (all due pending actions that haven't been drafted yet). Trigger on "email the oppo coach", "draft an oppo email", "email the ref", "draft the referee email", "create drafts", "draft emails", or as part of a scheduled run cycle.
 allowed-tools: mcp__nanoclaw__sheets_list_actions, mcp__nanoclaw__sheets_get_fixture, mcp__nanoclaw__sheets_update_action, mcp__nanoclaw__gmail_draft_create
 ---
 
