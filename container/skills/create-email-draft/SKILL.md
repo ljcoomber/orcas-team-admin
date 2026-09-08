@@ -1,12 +1,16 @@
 ---
 name: create-email-draft
 description: Create Gmail drafts for opposition-coach and referee fixture emails (all due pending actions that haven't been drafted yet). Trigger on "email the oppo coach", "draft an oppo email", "email the ref", "draft the referee email", "create drafts", "draft emails", or as part of a scheduled run cycle.
-allowed-tools: mcp__nanoclaw__sheets_list_actions, mcp__nanoclaw__sheets_get_fixture, mcp__nanoclaw__sheets_update_action, mcp__nanoclaw__gmail_draft_create
+allowed-tools: mcp__nanoclaw__sheets_list_actions, mcp__nanoclaw__sheets_get_fixture, mcp__nanoclaw__sheets_update_action, mcp__nanoclaw__gmail_draft_create, mcp__nanoclaw__gmail_scan
 ---
 
 # Create Draft
 
 Write and create Gmail drafts for all pending due actions.
+
+## Gmail is the canonical source for referee and opposition contact details
+
+The Sheet's `home_contact`/`away_contact`/`referee` fields are a cache populated by the `scan-fa-emails` skill — they can be stale, missing (e.g. a referee not yet appointed when the fixture was first scanned), or superseded by a later "fixture updated" email. Before drafting or whenever a detail is missing, uncertain, or the manager asks you to confirm/check it, call `mcp__nanoclaw__gmail_scan({ query: "from:donotreplyfulltime@thefa.com <fixture-specific term>" })` directly to pull the source email — don't wait to be told to "check gmail", and don't try to browse to gmail.com (agent-browser has no logged-in session there, it will fail). This is the same tool `scan-fa-emails` uses; see that skill for the email parsing format (`## Parsing` section) if you need to extract fields from the raw body.
 
 ## Steps
 
@@ -15,6 +19,7 @@ Write and create Gmail drafts for all pending due actions.
 3. For each qualifying action:
    - **Skip** if `action_type` is `book_pitch`, `parent_whatsapp`, or `away_fixture_monitoring` — these require manual action, not email drafts
    - Get the fixture: `mcp__nanoclaw__sheets_get_fixture({ fixture_id })`
+   - If any contact/referee detail needed for the email is missing or looks stale, check Gmail directly first (see above) rather than drafting with incomplete info
    - Write an email body in the manager's voice (see CLAUDE.md for tone preferences); for `email_opposition_coach` on a **home fixture**, include the venue address and directions inline (see the example below) rather than as an attachment — there's no venue-directions PDF wired up on this install
    - Subject format: `{home_team} vs {away_team}, {date formatted as "Sat 7 Mar 2026"}`
    - Create the draft: `mcp__nanoclaw__gmail_draft_create({ to, subject, body })`
